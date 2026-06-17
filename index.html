@@ -52,35 +52,32 @@
             z-index: -1;
         }
 
-        /* --- KODE KUCING OREN ANIMASI --- */
+        /* --- CONTAINER KUCING OREN (boncel.gif) --- */
         .cat-container {
             position: absolute;
-            bottom: 0px; /* Kembali ditempel ke dasar layar */
+            bottom: -20px; 
             left: 0;
             width: 100%;
-            height: 100px; 
+            height: 150px; 
             z-index: 1; 
             pointer-events: none; 
         }
 
         .cat {
-            width: 100px; 
-            height: 100px;
-            /* Menggunakan link GIF animasi kucing oren transparan dari internet */
-           background-image: url('boncel.gif');
+            width: 150px; 
+            height: 150px;
+            background-image: url('boncel.gif');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center bottom;
             position: absolute;
-           transform: scaleX(-1);
-            
-            /* Hanya menjalankan 1 animasi: Meluncur dari kiri ke kanan */
-            animation: jalankan_kucing 15s linear infinite; 
+            animation: jalankan_kucing 20s linear infinite; 
         }
 
+        /* Animasi berjalan dari KANAN ke KIRI */
         @keyframes jalankan_kucing {
-            0% { left: -100px; }
-            100% { left: 100%; } 
+            0% { left: 100%; }    
+            100% { left: -150px; } 
         }
 
         /* --- CONTAINER AMPLOP --- */
@@ -187,6 +184,8 @@
         .avatar-circle img {
             width: 100%; height: 100%; object-fit: cover;
         }
+
+        /* --- PERBAIKAN: Kotak Pesan dengan Fitur Scroll --- */
         .message-box {
             background-color: rgba(26, 42, 64, 0.9); 
             color: white;
@@ -197,12 +196,15 @@
             width: 100%; 
             box-sizing: border-box;
             
-            /* --- TAMBAHAN BARU AGAR BISA DI-SCROLL --- */
-            max-height: 55vh; /* Membatasi tinggi kotak maksimal 55% dari layar HP */
-            overflow-y: auto; /* Memunculkan fitur scroll secara otomatis */
+            /* Membatasi tinggi dan mengaktifkan scroll */
+            max-height: 55vh; 
+            overflow-y: auto; 
         }
 
-        /* --- TAMBAHAN BARU: Mempercantik Scrollbar agar elegan --- */
+        .message-box h2 { margin: 0; font-size: 26px; }
+        .message-box p { margin: 15px 0 0 0; line-height: 1.6; font-size: 17px; }
+
+        /* Mempercantik Scrollbar agar elegan */
         .message-box::-webkit-scrollbar {
             width: 6px;
         }
@@ -213,9 +215,6 @@
             background-color: rgba(255, 255, 255, 0.4);
             border-radius: 10px;
         }
-        .message-box h2 { margin: 0; font-size: 26px; }
-        .message-box p { margin: 15px 0 0 0; line-height: 1.6; font-size: 17px; }
-
     </style>
 </head>
 <body>
@@ -233,7 +232,7 @@
             <div class="envelope-back"></div>
             
             <div class="letter" id="letter">
-                <h3>Alooo<br>Sayanggg</h3>
+                <h3>Alooo<br>sayanggg!</h3>
                 <div style="font-size: 20px; margin-top: 5px;">💖💖</div>
             </div>
             
@@ -247,21 +246,25 @@
         <div class="avatar-circle">
             <img src="foto1.jpeg" alt="Avatar Spesial">
         </div>
+        
         <div class="message-box">
             <h2>Selamat Sayangkuu 🫣💜</h2>
+            
             <p>
                 Selamat yaaa cantikk!!! setelah berjuang selama ini akhirnya apa yang diinginkan tercapai, akuuu percaya kalau ayuuu pasti bisaa. semoga apa yang sudah sayanggg perjuangkan selama ini bisa membanggakan ayah dan mama yaaa cantikkk.
-             </p>
+            </p>
 
-             <p>
-                Aku bangga sama ayuuuu karena selalu konsisten belajarnya sampe begadang, terus sampe makannya gak teratur akhirnya sakit lambungnya karena gak bisa di kasih tauu hehe..., akuu cuman bisaa mendoakan sayanggg agar selalu di beri kesehatan dan kelancaran untuk semua urusan sayanggg dan akuu akan selalu mendukung itu semua yaaa cantikkk. 
+            <p>
+                Aku bangga sama ayuuuu karena selalu konsisten belajarnya sampe begadang, terus sampe makannya gak teratur akhirnya sakit lambungnya karena gak bisa di kasih tauu hehe...,akuu cuman bisaa mendoakan sayanggg agar selalu di beri kesehatan dan kelancaran untuk semua urusan sayanggg dan akuu akan selalu mendukung itu semua yaaa cantikkk. 
+            </p>
+
+            <p>
+                intinyaaa akuu bangga sama sayanggg atas semua pencapaian yanggg sayanggg dapatkan, selalu semangat yaaa cantikk dan jangan mudah menyerahh. Loppyouuu ayuuuu sayanggkuuu 
+           </p>
+
+            <p>
+            ❤️❤️❤️
              </p>
-             
-             <p>
-                intinyaaa akuu bangga sama sayanggg atas pencapaian yanggg sayanggg dapatkan loppyouuu ayuuuu
-            </p>
-                 ❤️❤️❤️
-            </p>
         </div>
     </div>
 
