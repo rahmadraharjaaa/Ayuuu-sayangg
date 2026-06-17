@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Untukmu</title>
+    <style>
+        /* Gaya Dasar Halaman */
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Latar Belakang Langit */
+        .background {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, #1a2a40 0%, #304e70 100%);
+            z-index: -2;
+        }
+
+        /* Efek Gelembung */
+        .bubbles {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+        }
+        .bubble {
+            position: absolute; border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            animation: bubbleFloat 10s infinite;
+        }
+        @keyframes bubbleFloat {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-20vh) scale(1.1); opacity: 0; }
+        }
+        .b1 { width: 50px; height: 50px; left: 10%; animation-duration: 8s; animation-delay: 1s; }
+        .b2 { width: 80px; height: 80px; left: 30%; animation-duration: 12s; animation-delay: 3s; }
+        .b3 { width: 40px; height: 40px; left: 60%; animation-duration: 9s; animation-delay: 0s; }
+        .b4 { width: 100px; height: 100px; left: 80%; animation-duration: 15s; animation-delay: 5s; }
+        .b5 { width: 60px; height: 60px; left: 45%; animation-duration: 11s; animation-delay: 2s; }
+
+        /* Dekorasi Pohon */
+        .tree-decoration {
+            position: absolute; bottom: -50px; right: -50px;
+            width: 250px; height: 250px;
+            background-color: #0b1a2e;
+            border-radius: 50% 50% 10% 10% / 70% 70% 30% 30%;
+            z-index: -1;
+        }
+
+        /* --- KODE KUCING OREN ANIMASI --- */
+        .cat-container {
+            position: absolute;
+            bottom: 0px; /* Kembali ditempel ke dasar layar */
+            left: 0;
+            width: 100%;
+            height: 100px; 
+            z-index: 1; 
+            pointer-events: none; 
+        }
+
+        .cat {
+            width: 100px; 
+            height: 100px;
+            /* Menggunakan link GIF animasi kucing oren transparan dari internet */
+           background-image: url('boncel.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            position: absolute;
+           transform: scaleX(-1);
+            
+            /* Hanya menjalankan 1 animasi: Meluncur dari kiri ke kanan */
+            animation: jalankan_kucing 15s linear infinite; 
+        }
+
+        @keyframes jalankan_kucing {
+            0% { left: -100px; }
+            100% { left: 100%; } 
+        }
+
+        /* --- CONTAINER AMPLOP --- */
+        .opening-container {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex; flex-direction: column; align-items: center; gap: 30px;
+            z-index: 5;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 250px; height: 160px;
+        }
+
+        .envelope-back {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #d16b80;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 10px; left: 10px;
+            width: 230px; height: 140px;
+            background-color: #fff;
+            border-radius: 5px;
+            z-index: 2;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .letter h3 {
+            margin: 0; color: #e63968;
+            font-size: 24px; font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .letter.slide-up {
+            transform: translateY(-80px); 
+        }
+
+        .envelope-front {
+            position: absolute; bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 125px solid #ffb7c5;
+            border-right: 125px solid #ffb7c5;
+            border-bottom: 80px solid #ffa4b2; 
+            border-top: 80px solid transparent;
+            z-index: 3;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .flap {
+            position: absolute; top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 125px solid transparent;
+            border-right: 125px solid transparent;
+            border-top: 85px solid #ffa4b2;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 4;
+        }
+
+        .flap.open {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .open-btn {
+            background-color: #ffb7c5; color: #333;
+            border: 2px solid white; border-radius: 25px;
+            padding: 10px 25px; font-size: 18px; font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease-out;
+            z-index: 10;
+        }
+        .open-btn.hidden {
+            opacity: 0; pointer-events: none;
+        }
+
+        /* --- CONTAINER PESAN AKHIR --- */
+        .message-main {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            display: none; flex-direction: column; align-items: center;
+            width: 90%; max-width: 500px; text-align: center;
+            opacity: 0; transition: opacity 1s ease-in; z-index: 10;
+        }
+        .message-main.visible {
+            display: flex; opacity: 1;
+        }
+        .avatar-circle {
+            width: 100px; height: 100px; background-color: white; border-radius: 50%;
+            border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; z-index: 2; margin-bottom: -50px;
+        }
+        .avatar-circle img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .message-box {
+            background-color: rgba(26, 42, 64, 0.9); color: white;
+            border: 2px solid rgba(255, 255, 255, 0.6); border-radius: 15px;
+            padding: 60px 30px 30px 30px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            width: 100%; box-sizing: border-box;
+        }
+        .message-box h2 { margin: 0; font-size: 26px; }
+        .message-box p { margin: 15px 0 0 0; line-height: 1.6; font-size: 17px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+    <div class="bubbles">
+        <div class="bubble b1"></div><div class="bubble b2"></div>
+        <div class="bubble b3"></div><div class="bubble b4"></div>
+        <div class="bubble b5"></div>
+    </div>
+    <div class="tree-decoration"></div>
+
+    <div class="opening-container" id="openingContainer">
+        <div class="envelope-wrapper">
+            <div class="envelope-back"></div>
+            
+            <div class="letter" id="letter">
+                <h3>Alooo<br>Sayanggg</h3>
+                <div style="font-size: 20px; margin-top: 5px;">💖💖</div>
+            </div>
+            
+            <div class="envelope-front"></div>
+            <div class="flap" id="flap"></div>
+        </div>
+        <button class="open-btn" id="openBtn" onclick="openLetter()">Buka Surat 🩷</button>
+    </div>
+
+    <div class="message-main" id="message">
+        <div class="avatar-circle">
+            <img src="foto1.jpeg" alt="Avatar Spesial">
+        </div>
+        <div class="message-box">
+            <h2>Selamat Sayangkuu 🫣💜</h2>
+            <p>
+                Selamat yaaa cantikk!!! setelah berjuang selama ini akhirnya apa yang diinginkan tercapai, akuuu percaya kalau ayuuu pasti bisaa. semoga apa yang sudah sayanggg perjuangkan selama ini bisa membanggakan ayah dan mama yaaa cantikkk.
+             </p>
+
+             <p>
+                Aku bangga sama ayuuuu karena selalu konsisten belajarnya sampe begadang, terus sampe makannya gak teratur akhirnya sakit lambungnya karena gak bisa di kasih tauu hehe..., akuu cuman bisaa mendoakan sayanggg agar selalu di beri kesehatan dan kelancaran untuk semua urusan sayanggg dan akuu akan selalu mendukung itu semua yaaa cantikkk. 
+             </p>
+             
+             <p>
+                intinyaaa akuu bangga sama sayanggg atas pencapaian yanggg sayanggg dapatkan loppyouuu ayuuuu
+            </p>
+                 ❤️❤️❤️
+            </p>
+        </div>
+    </div>
+
+    <div class="cat-container">
+        <div class="cat"></div>
+    </div>
+
+    <script>
+        function openLetter() {
+            const openingContainer = document.getElementById('openingContainer');
+            const flap = document.getElementById('flap');
+            const letter = document.getElementById('letter');
+            const button = document.getElementById('openBtn');
+            const message = document.getElementById('message');
+
+            button.classList.add('hidden');
+            flap.classList.add('open');
+
+            setTimeout(() => {
+                letter.classList.add('slide-up');
+            }, 600);
+
+            setTimeout(() => {
+                openingContainer.style.opacity = '0'; 
+
+                setTimeout(() => {
+                    openingContainer.style.display = 'none'; 
+                    message.classList.add('visible');
+                }, 1000); 
+
+            }, 3000); 
+        }
+    </script>
+
+</body>
+</html>
